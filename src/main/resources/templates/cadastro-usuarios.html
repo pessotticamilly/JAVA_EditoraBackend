@@ -9,12 +9,12 @@
               crossorigin="anonymous"
         >
     </head>
-    <body class="bg-light" th:action="@{/editora_livros-api/pessoa}" method="post" th:object="${pessoa}">
+    <body class="bg-light" >
         <header class="bg-dark bg-gradient text-center">
             <h1 class="display-3  text-white p-4">Cadastrar Usuário</h1>
         </header>
         <main>
-            <form class="mb-3 container">
+            <form class="mb-3 container" th:action="@{/editora-livros-api/pessoa}" method="post" th:object="${pessoa}">
                 <div class="mb-3">
                     <div class="ms-2 form-label fw-semibold">Nome</div>
                     <input type="text" id="nome" class="form-control" th:field="*{nome}"/>
@@ -33,9 +33,8 @@
                 </div>
                 <div class="mb-3">
                     <div class="ms-2 form-label fw-semibold">Gênero</div>
-                    <select id="genero" class="form-control">
-                        <option disabled selected>Selecione um gênero</option>
-                        <option th:each="genero:${T(br.senai.sc.editoralivros.model.entity.Genero).values()}" th:text="${genero.name}"></option>
+                    <select id="genero" class="form-control" name="genero">
+                        <option th:each="genero:${T(br.senai.sc.editoralivros.model.entity.Genero).values()}" th:value="${genero.name}" th:text="${genero.nome}"></option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -44,7 +43,7 @@
                 </div>
                 <div class="mb-3">
                     <div class="ms-2 form-label fw-semibold">Confirmar senha</div>
-                    <input type="password" id="confirma-senha" class="form-control" th:field="*{senha}" />
+                    <input type="password" id="confirma-senha" class="form-control"/>
                 </div>
                 <div class="container d-flex flex-row mb-4">
                     <div class="container ps-0">

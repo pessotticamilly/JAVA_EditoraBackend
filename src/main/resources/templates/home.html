@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -19,7 +19,7 @@
                         <input class="form-control me-2" type="search" placeholder="Pesquisa">
                         <button class="btn btn-primary fw-semibold" type="submit">Pesquisar</button>
                     </form>
-                    <form class="position-relative">
+                    <form class="position-relative" th:action="@{/editora-livros-api/logout}" method="post">
                         <button type="submit" class="btn btn-primary fw-semibold">Logout</button>
                     </form>
                 </div>

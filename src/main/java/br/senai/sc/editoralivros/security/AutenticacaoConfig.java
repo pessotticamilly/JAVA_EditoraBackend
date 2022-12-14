@@ -47,7 +47,7 @@ public class AutenticacaoConfig {
 
         httpSecurity.authorizeRequests()
                 // Libera o acesso sem autenticação para /login
-                .antMatchers("/editora-livros-api/login", "/editora-livros-api/usuarios").permitAll()
+                .antMatchers("/editora-livros-api/login", "/editora-livros-api/usuarios", "/editora-livros-api/pessoa").permitAll()
                 // Determina que todas as demais requisições terão de ser autenticadas
                 .anyRequest().authenticated()
                 .and().csrf().disable()
@@ -74,7 +74,9 @@ public class AutenticacaoConfig {
                     }
                 })
                 .and()
-                .logout().permitAll();
+                .logout()
+                .logoutUrl("/editora-livros-api/logout")
+                .logoutSuccessUrl("/editora-livros-api/login").permitAll();
 //                .and()
 //
 //                .sessionManagement().sessionCreationPolicy(

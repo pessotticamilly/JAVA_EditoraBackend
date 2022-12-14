@@ -1,5 +1,6 @@
 package br.senai.sc.editoralivros.controller;
 
+import br.senai.sc.editoralivros.dto.PessoaDTO;
 import br.senai.sc.editoralivros.model.entity.Pessoa;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -29,8 +30,8 @@ public class FrontController {
     }
 
     @GetMapping("/usuarios")
-    public String cadastroLivros(Authentication authentication, Model model) {
-        Pessoa pessoa = new Pessoa();
+    public String usuario(Authentication authentication, Model model) {
+        PessoaDTO pessoa = new PessoaDTO();
 
         if (authentication != null) {
             if (authentication instanceof OAuth2AuthenticationToken) {
