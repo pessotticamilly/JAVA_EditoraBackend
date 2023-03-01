@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -42,7 +43,7 @@ public class AutenticacaoConfig {
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(jpaService);
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
         httpSecurity.authenticationProvider(provider);
 
         httpSecurity.authorizeRequests()
@@ -50,40 +51,11 @@ public class AutenticacaoConfig {
                 .antMatchers("/editora-livros-api/login", "/editora-livros-api/usuarios", "/editora-livros-api/pessoa").permitAll()
                 // Determina que todas as demais requisições terão de ser autenticadas
                 .anyRequest().authenticated()
-                .and().csrf().disable()
-
+                .and().csrf().disable().cors().disable()
                 .formLogin().permitAll()
-                .loginPage("/editora-livros-api/login")
-                .defaultSuccessUrl("/editora-livros-api/home")
                 .and()
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(googleService)
-                .and()
-                .loginPage("/editora-livros-api/login")
-//                .defaultSuccessUrl("/editora-livros-api/home")
-                .successHandler((request, response, authentication) -> {
-                    OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-                    System.out.println(oAuth2User);
+                .logout().permitAll();
 
-                    try {
-                        UserDetails userDetails = jpaService.loadUserByUsername(oAuth2User.getAttribute("email"));
-                        response.sendRedirect("/editora-livros-api/home");
-                    } catch (UsernameNotFoundException e) {
-                        response.sendRedirect("/editora-livros-api/usuarios");
-                    }
-                })
-                .and()
-                .logout()
-                .logoutUrl("/editora-livros-api/logout")
-                .logoutSuccessUrl("/editora-livros-api/login").permitAll();
-//                .and()
-//
-//                .sessionManagement().sessionCreationPolicy(
-//                SessionCreationPolicy.STATELESS)
-//                .and().addFilterBefore(
-//                new AutenticacaoFiltro(jpaService),
-//                UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 }

@@ -26,10 +26,8 @@ public class JpaService implements UserDetailsService {
     private final String senhaForte = "c127a7b6adb013a5ff879ae71afa62afa4b4ceb72afaa54711dbcde67b6dc325";
 
     @Override
-    public UserDetails loadUserByUsername(
-            String username) throws UsernameNotFoundException {
-        Optional<Pessoa> pessoaOptional =
-                pessoaRepository.findByEmail(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Pessoa> pessoaOptional = pessoaRepository.findByEmail(username);
         if (pessoaOptional.isPresent()) {
             return new UserJpa(pessoaOptional.get());
         }
