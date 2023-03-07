@@ -1,6 +1,5 @@
 package br.senai.sc.editoralivros.security;
 
-import br.senai.sc.editoralivros.model.entity.Pessoa;
 import br.senai.sc.editoralivros.security.service.JpaService;
 import br.senai.sc.editoralivros.security.users.UserJpa;
 import lombok.AllArgsConstructor;
@@ -29,7 +28,9 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
         } else {
             token = null;
         }
+
         Boolean valido = jpaService.validarToken(token);
+
         if (valido) {
             UserJpa usuario = jpaService.getUsuario(token);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
@@ -41,6 +42,7 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
         } else if (!request.getRequestURI().equals("/editora-livros-api/login") || !request.getRequestURI().equals("/editora-livros-api/usuarios")) {
             response.setStatus(401);
         }
+
         filterChain.doFilter(request, response);
     }
 }
