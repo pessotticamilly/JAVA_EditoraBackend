@@ -5,13 +5,12 @@ import br.senai.sc.editoralivros.model.entity.Pessoa;
 import br.senai.sc.editoralivros.model.service.PessoaService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +25,7 @@ public class PessoaController {
     public ResponseEntity<Object> findByEmail(@PathVariable(value = "email") String email) {
         Optional<Pessoa> pessoaOptional = pessoaService.findByEmail(email);
 
-        if (pessoaOptional.isEmpty()){
+        if (pessoaOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa " + "com este E-mail");
         }
 
@@ -35,9 +34,9 @@ public class PessoaController {
 
     @GetMapping("/{cpf}")
     public ResponseEntity<Object> findById(@PathVariable(value = "cpf") Long cpf) {
-
         Optional<Pessoa> pessoaOptional = pessoaService.findById(cpf);
-        if (pessoaOptional.isEmpty()){
+
+        if (pessoaOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa " + "com este CPF");
         }
 
@@ -51,11 +50,11 @@ public class PessoaController {
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody @Valid PessoaDTO pessoaDTO) {
-        if(pessoaService.existsById(pessoaDTO.getCpf())) {
+        if (pessoaService.existsById(pessoaDTO.getCpf())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Este CPF já está cadastrado.");
         }
 
-        if (pessoaService.existsByEmail(pessoaDTO.getEmail())){
+        if (pessoaService.existsByEmail(pessoaDTO.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Este E-mail já está cadastrado.");
         }
 
@@ -68,7 +67,7 @@ public class PessoaController {
 
     @DeleteMapping("/{cpf}")
     public ResponseEntity<Object> deleteById(@PathVariable(value = "cpf") Long cpf) {
-        if (!pessoaService.existsById(cpf)){
+        if (!pessoaService.existsById(cpf)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa " + "com este CPF");
         }
 

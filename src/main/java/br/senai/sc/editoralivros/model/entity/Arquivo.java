@@ -11,7 +11,6 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @Getter @Setter
 public class Arquivo {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,6 +21,4 @@ public class Arquivo {
     @NonNull
     @Lob
     private byte[] dados;
-
-
 }

@@ -1,11 +1,11 @@
 package br.senai.sc.editoralivros.security;
 
 import br.senai.sc.editoralivros.security.service.JpaService;
-import br.senai.sc.editoralivros.security.users.UserJpa;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -16,7 +16,8 @@ import java.io.IOException;
 
 @AllArgsConstructor
 public class AutenticacaoFiltro extends OncePerRequestFilter {
-
+    @Autowired
+    private TokenUtils tokenUtils;
     @Autowired
     private JpaService jpaService;
 
@@ -29,16 +30,13 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
             token = null;
         }
 
-        Boolean valido = jpaService.validarToken(token);
+        Boolean valido = tokenUtils.validarToken(token);
 
         if (valido) {
-            UserJpa usuario = jpaService.getUsuario(token);
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                    new UsernamePasswordAuthenticationToken(usuario.getUsername(),
-                            null, usuario.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(
-                    usernamePasswordAuthenticationToken
-            );
+            Long usuarioCPF = tokenUtils.getUsuario(token);
+            UserDetails usuario = jpaService.loadUserByUsername(usuarioCPF.toString());
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, usuario.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         } else if (!request.getRequestURI().equals("/editora-livros-api/login") || !request.getRequestURI().equals("/editora-livros-api/usuarios")) {
             response.setStatus(401);
         }
