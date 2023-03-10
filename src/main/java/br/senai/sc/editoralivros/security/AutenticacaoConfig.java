@@ -37,7 +37,7 @@ public class AutenticacaoConfig {
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 // Libera o acesso sem autenticação para /login
-                .antMatchers("/editora-livros-api/login", "/editora-livros-api/usuarios", "/editora-livros-api/pessoa").permitAll()
+                .antMatchers("/login", "/login/auth", "/usuarios", "/pessoa").permitAll()
                 // Determina que todas as demais requisições terão de ser autenticadas
                 .anyRequest().authenticated();
         httpSecurity.csrf().disable().cors().disable();
