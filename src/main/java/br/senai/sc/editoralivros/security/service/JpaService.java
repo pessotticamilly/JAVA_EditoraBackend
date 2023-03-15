@@ -22,7 +22,7 @@ public class JpaService implements UserDetailsService {
         try {
             Long cpf = Long.parseLong(username);
             pessoaOptional = pessoaRepository.findById(cpf);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             pessoaOptional = pessoaRepository.findByEmail(username);
         }
 
