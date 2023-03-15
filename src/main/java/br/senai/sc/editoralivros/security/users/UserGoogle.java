@@ -9,9 +9,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public class UserGoogle implements OAuth2User {
-
     private OAuth2User oAuth2User;
-
     public UserGoogle(OAuth2User oAuth2User){
         this.oAuth2User = oAuth2User;
     }

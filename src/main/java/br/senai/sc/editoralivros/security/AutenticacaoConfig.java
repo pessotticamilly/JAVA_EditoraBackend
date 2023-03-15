@@ -20,10 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @AllArgsConstructor
 public class AutenticacaoConfig {
-
     @Autowired
     private JpaService jpaService;
-
     @Autowired
     private GoogleService googleService;
 
