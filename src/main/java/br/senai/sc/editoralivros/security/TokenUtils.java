@@ -49,6 +49,6 @@ public class TokenUtils {
             return cookie.getValue();
         }
 
-        throw new RuntimeException("Cookie n~´ao encontrado");
+        throw new RuntimeException("Cookie não encontrado");
     }
 }
