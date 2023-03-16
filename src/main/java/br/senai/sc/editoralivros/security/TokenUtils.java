@@ -42,6 +42,16 @@ public class TokenUtils {
         //new UserJpa(pessoaRepository.findById(cpf).get());
     }
 
+    public Cookie gerarCookie(Authentication authentication) {
+        Cookie cookie = new Cookie("jwt", gerarToken(authentication));
+
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setMaxAge(3600);
+
+        return cookie;
+    }
+
     public String buscarCookie(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, "jwt");
 

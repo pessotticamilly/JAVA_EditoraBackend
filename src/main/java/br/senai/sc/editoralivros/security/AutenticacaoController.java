@@ -33,12 +33,10 @@ public class AutenticacaoController {
         System.out.println(authentication.isAuthenticated());
 
         if (authentication.isAuthenticated()) {
-            String token = tokenUtils.gerarToken(authentication);
-            Cookie cookie = new Cookie("jwt", token);
-            cookie.setPath("/");
-            response.addCookie(cookie);
             UserJpa userJpa = (UserJpa) authentication.getPrincipal();
             Pessoa pessoa = userJpa.getPessoa();
+
+            response.addCookie(tokenUtils.gerarCookie(authentication));
 
             return ResponseEntity.status(HttpStatus.OK).body(pessoa);
         }

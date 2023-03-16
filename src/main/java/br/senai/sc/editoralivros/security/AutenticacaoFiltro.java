@@ -17,25 +17,15 @@ import java.io.IOException;
 
 @AllArgsConstructor
 public class AutenticacaoFiltro extends OncePerRequestFilter {
-    @Autowired
     private TokenUtils tokenUtils;
-    @Autowired
     private JpaService jpaService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-       if(request.getRequestURI().equals("/login") || request.getRequestURI().equals("/login/auth") || request.getRequestURI().equals("/logout")) {
+       if(request.getRequestURI().equals("/login/auth") || request.getRequestURI().equals("/logout")) {
            filterChain.doFilter(request, response);
            return;
        }
-
-//        String token = request.getHeader("Authorization");
-//
-//        if (token != null && token.startsWith("Bearer ")) {
-//            token = token.substring(7);
-//        } else {
-//            token = null;
-//        }
 
         String token = tokenUtils.buscarCookie(request);
 

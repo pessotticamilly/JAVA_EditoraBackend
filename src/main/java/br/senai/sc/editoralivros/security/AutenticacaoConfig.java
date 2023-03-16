@@ -15,13 +15,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-@Configuration
+import java.util.List;
+
+
 @AllArgsConstructor
+@Configuration
 public class AutenticacaoConfig {
-    @Autowired
     private JpaService jpaService;
-    @Autowired
     private GoogleService googleService;
 
     @Autowired
@@ -35,8 +39,9 @@ public class AutenticacaoConfig {
                 .antMatchers("/login", "/login/auth", "/logout").permitAll()
                 .antMatchers(HttpMethod.POST, "/editora-livros-api/livro").hasAuthority("Autor")
                 .anyRequest().authenticated();
-        httpSecurity.csrf().disable().cors().disable();
-        httpSecurity.formLogin().permitAll().and().logout().permitAll();
+        httpSecurity.csrf().disable();
+        httpSecurity.cors().configurationSource(corsConfigurationSource());
+        httpSecurity.logout().permitAll();
         // não deixa o usuário ficar com a sessão ativa
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // toda vez que tiver uma requisição, antes de qualquer coisa terá de passar pelo filtro
@@ -49,5 +54,20 @@ public class AutenticacaoConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    private CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        corsConfiguration.setAllowedOrigins(List.of("https://localhost:3000"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return source;
     }
 }
