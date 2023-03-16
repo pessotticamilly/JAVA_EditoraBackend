@@ -29,14 +29,11 @@ public class AutenticacaoConfig {
         authenticationManagerBuilder.userDetailsService(jpaService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
-    // Configura as autorizações de acesso
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                // libera o acesso sem autenticação para /login
                 .antMatchers("/login", "/login/auth", "/logout").permitAll()
                 .antMatchers(HttpMethod.POST, "/editora-livros-api/livro").hasAuthority("Autor")
-                // determina que todas as demais requisições terão de ser autenticadas
                 .anyRequest().authenticated();
         httpSecurity.csrf().disable().cors().disable();
         httpSecurity.formLogin().permitAll().and().logout().permitAll();
