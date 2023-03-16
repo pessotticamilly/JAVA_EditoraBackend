@@ -42,11 +42,14 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
         Boolean valido = tokenUtils.validarToken(token);
 
         if (valido) {
+            System.out.println("Entrou");
             Long usuarioCPF = tokenUtils.getUsuario(token);
             //UserDetails usuario = jpaService.loadUserByUsername(usuarioCPF.toString());
             UserDetails usuario = jpaService.loadUserByUsernameCPF(usuarioCPF);
+            System.out.println(usuario);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            filterChain.doFilter(request, response);
             return;
         }
 

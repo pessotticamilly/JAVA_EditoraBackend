@@ -34,7 +34,7 @@ public class AutenticacaoConfig {
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 // libera o acesso sem autenticação para /login
-                .antMatchers("/login", "/login/auth", "/logout", "/usuarios").permitAll()
+                .antMatchers("/login", "/login/auth", "/logout").permitAll()
                 .antMatchers(HttpMethod.POST, "/editora-livros-api/livro").hasAuthority("Autor")
                 // determina que todas as demais requisições terão de ser autenticadas
                 .anyRequest().authenticated();
