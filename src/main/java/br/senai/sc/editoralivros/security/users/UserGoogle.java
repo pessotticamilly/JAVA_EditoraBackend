@@ -1,10 +1,8 @@
 package br.senai.sc.editoralivros.security.users;
 
-import br.senai.sc.editoralivros.model.entity.Pessoa;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 

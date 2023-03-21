@@ -3,18 +3,20 @@ package br.senai.sc.editoralivros.dto;
 import br.senai.sc.editoralivros.model.entity.Genero;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 public class PessoaDTO {
-//    @NotBlank
+    @NotBlank
     private Long cpf;
-//    @NotBlank
+    @NotBlank
     private String nome;
-//    @NotBlank
+    @NotBlank
     private String sobrenome;
-//    @NotBlank
+    @NotBlank
     private String email;
-//    @NotBlank
+    @NotBlank
     private String senha;
-//    @NotBlank
+    @NotBlank
     private Genero genero;
 }

@@ -17,19 +17,13 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
-@RequestMapping("/editora-livros-api/pessoa")
+@RequestMapping("/editora/pessoa")
 public class PessoaController {
     private PessoaService pessoaService;
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Object> findByEmail(@PathVariable(value = "email") String email) {
-        Optional<Pessoa> pessoaOptional = pessoaService.findByEmail(email);
-
-        if (pessoaOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa " + "com este E-mail");
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
+    @GetMapping
+    public ResponseEntity<List<Pessoa>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findAll());
     }
 
     @GetMapping("/{cpf}")
@@ -43,9 +37,15 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
     }
 
-    @GetMapping
-    public ResponseEntity<List<Pessoa>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findAll());
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Object> findByEmail(@PathVariable(value = "email") String email) {
+        Optional<Pessoa> pessoaOptional = pessoaService.findByEmail(email);
+
+        if (pessoaOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi encontrada nenhuma pessoa " + "com este E-mail");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
     }
 
     @PostMapping

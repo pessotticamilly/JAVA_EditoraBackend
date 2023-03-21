@@ -14,31 +14,31 @@ public class PessoaService {
         this.pessoaRepository = pessoaRepository;
     }
 
-    public boolean existsById(Long cpf) {
-        return pessoaRepository.existsById(cpf);
+    public <S extends Pessoa> S save(S entity) {
+        return pessoaRepository.save(entity);
     }
 
     public List<Pessoa> findAll() {
         return pessoaRepository.findAll();
     }
 
-    public <S extends Pessoa> S save(S entity) {
-        return pessoaRepository.save(entity);
-    }
-
     public Optional<Pessoa> findById(Long cpf) {
         return pessoaRepository.findById(cpf);
-    }
-
-    public void deleteById(Long cpf) {
-        pessoaRepository.deleteById(cpf);
     }
 
     public Optional<Pessoa> findByEmail(String email) {
         return pessoaRepository.findByEmail(email);
     }
 
+    public boolean existsById(Long cpf) {
+        return pessoaRepository.existsById(cpf);
+    }
+
     public boolean existsByEmail(String email) {
         return pessoaRepository.existsByEmail(email);
+    }
+
+    public void deleteById(Long cpf) {
+        pessoaRepository.deleteById(cpf);
     }
 }

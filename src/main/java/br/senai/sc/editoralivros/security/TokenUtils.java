@@ -1,6 +1,5 @@
 package br.senai.sc.editoralivros.security;
 
-import br.senai.sc.editoralivros.model.entity.Pessoa;
 import br.senai.sc.editoralivros.security.users.UserJpa;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

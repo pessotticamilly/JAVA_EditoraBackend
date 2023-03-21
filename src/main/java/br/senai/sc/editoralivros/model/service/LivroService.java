@@ -21,6 +21,14 @@ public class LivroService {
         return livroRepository.save(livro);
     }
 
+    public List<Livro> findAll(){
+        return livroRepository.findAll();
+    }
+
+    public Page<Livro> findAll(Pageable pageable){
+        return livroRepository.findAll(pageable);
+    }
+
     public Optional<Livro> findById(Long isbn){
         return livroRepository.findById(isbn);
     }
@@ -33,22 +41,13 @@ public class LivroService {
         return livroRepository.findByAutores(autor);
     }
 
-    public List<Livro> findAll(){
-        return livroRepository.findAll();
-    }
-
-    public Page<Livro> findAll(Pageable pageable){
-        return livroRepository.findAll(pageable);
+    public boolean existsById(Long isbn) {
+        return livroRepository.existsById(isbn);
     }
 
     public void deleteById(Long isbn){
         livroRepository.deleteById(isbn);
     }
-
-    public boolean existsById(Long isbn) {
-        return livroRepository.existsById(isbn);
-    }
-
 
     public List<Livro> findByIsbnAndStatus(Long isbn, Status status){
         return livroRepository.findByIsbnAndStatus(isbn, status);

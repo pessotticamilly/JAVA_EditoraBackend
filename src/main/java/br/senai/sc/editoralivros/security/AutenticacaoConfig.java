@@ -21,7 +21,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-
 @AllArgsConstructor
 @Configuration
 public class AutenticacaoConfig {
@@ -37,7 +36,7 @@ public class AutenticacaoConfig {
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 .antMatchers("/login", "/login/auth", "/logout").permitAll()
-                .antMatchers(HttpMethod.POST, "/editora-livros-api/livro").hasAuthority("Autor")
+                .antMatchers(HttpMethod.POST, "/editora/livro").hasAuthority("Autor")
                 .anyRequest().authenticated();
         httpSecurity.csrf().disable();
         httpSecurity.cors().configurationSource(corsConfigurationSource());

@@ -21,44 +21,25 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-@RequestMapping("/editora-livros-api/livro")
+@RequestMapping("/editora/livro")
 @Controller
 public class LivroController {
     private LivroService livroService;
 
-    @GetMapping("/get/{isbn}")
-    public ResponseEntity<List<Livro>> findByIdAndStatus(@PathVariable(value = "isbn") Long isbn) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                livroService.findByIsbnAndStatus(isbn, Status.APROVADO));
-    }
-
-    @PostMapping
-    public ResponseEntity<Object> save(@RequestParam("livro") String livroJson, @RequestParam("arquivo") MultipartFile file) {
-        LivroUtil util = new LivroUtil();
-        Livro livro = util.convertJsonToModel(livroJson);
-
-        if (livroService.existsById(livro.getIsbn())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(
-            "Há um livro com o ISBN " + livro.getIsbn() + " cadastrado.");
-        }
-
-        livro.setArquivo(file);
-        livro.setStatus(Status.AGUARDANDO_REVISAO);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                livroService.save(livro));
+    @GetMapping
+    public ResponseEntity<List<Livro>> findAll() {
+        return ResponseEntity.status(HttpStatus.FOUND).body(livroService.findAll());
     }
 
     @GetMapping("/isbn/{isbn}")
     public ResponseEntity<Object> findById(@PathVariable(value = "isbn") Long isbn) {
-        Optional<Livro> livroOptional =  livroService.findById(isbn);
+        Optional<Livro> livroOptional = livroService.findById(isbn);
 
         if (livroOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    "O livro de ISBN " + isbn + " não foi encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("O livro de ISBN " + isbn + " não foi encontrado.");
         }
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(
-                livroOptional.get());
+        return ResponseEntity.status(HttpStatus.FOUND).body(livroOptional.get());
     }
 
     @GetMapping("/status/{status}")
@@ -71,14 +52,36 @@ public class LivroController {
         return ResponseEntity.status(HttpStatus.FOUND).body(livroService.findByAutor(autor));
     }
 
-    @GetMapping
-    public ResponseEntity<List<Livro>> findAll() {
-        return ResponseEntity.status(HttpStatus.FOUND).body(livroService.findAll());
-    }
-
     @GetMapping("/page")
     public ResponseEntity<Page<Livro>> findAllPage(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.FOUND).body(livroService.findAll(pageable));
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> save(@RequestParam("livro") String livroJson, @RequestParam("arquivo") MultipartFile file) {
+        LivroUtil util = new LivroUtil();
+        Livro livro = util.convertJsonToModel(livroJson);
+
+        if (livroService.existsById(livro.getIsbn())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Há um livro com o ISBN " + livro.getIsbn() + " cadastrado.");
+        }
+
+        livro.setArquivo(file);
+        livro.setStatus(Status.AGUARDANDO_REVISAO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(livroService.save(livro));
+    }
+
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody @Valid LivroDTO livroDto) {
+        if (!livroService.existsById(livroDto.getIsbn())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Livro não encontrado.");
+        }
+
+        Livro livroModel = livroService.findById(livroDto.getIsbn()).get();
+        BeanUtils.copyProperties(livroDto, livroModel);
+
+        return ResponseEntity.status(HttpStatus.OK).body(livroService.save(livroModel));
     }
 
     @DeleteMapping("/{isbn}")
@@ -90,17 +93,5 @@ public class LivroController {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Livro não encontrado.");
-    }
-
-    @PutMapping
-    public ResponseEntity<Object> update(@RequestBody @Valid LivroDTO livroDto) {
-        if (!livroService.existsById(livroDto.getIsbn())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Livro não encontrado.");
-        }
-
-        Livro livroModel = livroService.findById(livroDto.getIsbn()).get();
-        BeanUtils.copyProperties(livroDto,livroModel);
-
-        return ResponseEntity.status(HttpStatus.OK).body(livroService.save(livroModel));
     }
 }

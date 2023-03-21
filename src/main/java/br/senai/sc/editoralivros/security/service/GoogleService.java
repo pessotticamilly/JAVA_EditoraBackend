@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GoogleService extends DefaultOAuth2UserService {
-
     // Converter o usuário do tipo OAuth2User para a nossa classe de usuário
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {

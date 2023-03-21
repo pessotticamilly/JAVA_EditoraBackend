@@ -10,14 +10,14 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter @Setter
 @Entity
-@Table(name = "tb_editora")
+@Table(name = "editora")
 @ToString @EqualsAndHashCode
 public class Editora {
-
     @Id
     @Column(length = 14, nullable = false, unique = true)
     private Long cnpj;
-
     @Column(nullable = false)
     private String nome;
+
+    public Editora() {}
 }

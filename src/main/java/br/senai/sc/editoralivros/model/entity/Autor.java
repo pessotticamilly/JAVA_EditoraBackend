@@ -6,6 +6,4 @@ import javax.persistence.Entity;
 
 @AllArgsConstructor
 @Entity
-public class Autor extends Pessoa {
-
-}
+public class Autor extends Pessoa {}
