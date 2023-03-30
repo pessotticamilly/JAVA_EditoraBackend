@@ -5,6 +5,7 @@ import br.senai.sc.editoralivros.model.entity.Livro;
 import br.senai.sc.editoralivros.model.entity.Status;
 import br.senai.sc.editoralivros.repository.LivroRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class LivroService {
+    @Autowired
     private LivroRepository livroRepository;
 
     public Livro save(Livro livro){

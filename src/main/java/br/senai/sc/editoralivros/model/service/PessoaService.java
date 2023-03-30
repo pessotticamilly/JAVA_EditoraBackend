@@ -2,12 +2,14 @@ package br.senai.sc.editoralivros.model.service;
 
 import br.senai.sc.editoralivros.model.entity.Pessoa;
 import br.senai.sc.editoralivros.repository.PessoaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PessoaService {
+    @Autowired
     private PessoaRepository pessoaRepository;
 
     public PessoaService(PessoaRepository pessoaRepository){

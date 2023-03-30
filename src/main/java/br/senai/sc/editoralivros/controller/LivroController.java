@@ -8,6 +8,7 @@ import br.senai.sc.editoralivros.model.service.LivroService;
 import br.senai.sc.editoralivros.util.LivroUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequestMapping("/editora/livro")
 @Controller
 public class LivroController {
+    @Autowired
     private LivroService livroService;
 
     @GetMapping

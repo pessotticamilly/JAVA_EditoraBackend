@@ -5,6 +5,7 @@ import br.senai.sc.editoralivros.model.entity.Pessoa;
 import br.senai.sc.editoralivros.model.service.PessoaService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +20,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/editora/pessoa")
 public class PessoaController {
+    @Autowired
     private PessoaService pessoaService;
 
     @GetMapping
